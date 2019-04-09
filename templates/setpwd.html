@@ -5,19 +5,7 @@
     <title>reset</title>
      <link href="/static/css/bootstrap.min.css" rel="stylesheet">
      <link href="/static/css/signin.css" rel="stylesheet">
-    <script type="text/javascript">
-        function check {
-        with(document.all){
-        if(secpass.value!=newpass.value)
-        {
-            alert("两次输入密码不一致")
-         }
-         else {
-            document.forms[0].submit();
-            }
-          }
-         }
-    </script>
+    <!--<script src="/static/js/jquery-1.12.4.js"</script>-->
 
 </head>
 <body>
@@ -46,11 +34,10 @@
 <!--{% endif %}-->
     <form class="form-signin" action="/setpwd.html" method="POST">
      {% csrf_token %}
-
         {% if msg %}
-    <div class="rheads">
-    <h3>{{msg}}</h3>
-    </div>
+        <div class="rheads">
+            <h3>{{msg}}</h3>
+        </div>
     {% endif %}
 
     {% if result %}
@@ -58,19 +45,19 @@
     {% endif %}
 
     <label for="user1">用户名</label>
-    <input id="user1" type="text" class="form-control"  name="rusername" placeholder="用户名">
+    <input id="user1" type="text" class="form-control"  name="rusername" placeholder="用户名" required>
 
 
     <label for="oldpass">当前密码</label>
-    <input id="oldpass" type="password" class="form-control" name="oldpass" placeholder="旧密码">
+    <input id="oldpass" type="password" class="form-control" name="oldpass" placeholder="旧密码" required>
 
 
     <label for="newpass">新密码</label>
-    <input id="newpass" type="password" class="form-control"  name="newpass" oninput="check()" placeholder="输入新密码">
+    <input id="newpass" type="password" class="form-control"  name="newpass" placeholder="输入新密码" required>
 
 
-    <!--<label for="secpass">再次输入</label>-->
-    <!--<input id="secpass" type="password" class="form-control" name="secpass" oninput="check()" placeholder="再次输入">-->
+    <label for="secpass">再次输入</label>
+    <input id="secpass" type="password" class="form-control" name="secpass" onkeyup="validate()" placeholder="再次输入" required> <span id='tishi'></span>
 
     <button class="btn btn-lg btn-primary btn-block" type="submit">提交</button>
 </form>
@@ -78,7 +65,23 @@
 </div>
 
 
+<script>
+    function validate() {
+    var p1 = document.getElementById("newpass").value;
+    var p2 = document.getElementById("secpass").value;
 
+
+    if(p1 == p2)
+     {
+        document.getElementById("tishi").innerHTML="<font color='green'>两次密码相同</font>";
+        document.getElementById("button").disabled = false;
+     }
+else {
+        document.getElementById("tishi").innerHTML="<font color='red'>两次密码不相同</font>";
+        document.getElementById("button").disabled = true;
+      }
+}
+</script>
 
 </body>
 </html>

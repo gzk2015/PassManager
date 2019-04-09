@@ -1,6 +1,16 @@
 from django.http import HttpResponse,HttpResponseRedirect,HttpResponseNotAllowed
 from django.shortcuts import render,redirect
+from django.contrib.auth.decorators import login_required
 from .myldap import *
+
+
+def loginRequire(func):
+    def wrapper(func,*args, **kwargs):
+        if request.session.get('is_login', None):
+            return func(*args, **kwargs)
+        else:
+            msg = '没登录就想改密码，你想多了！听话，先登录！'
+            return render(request, 'login.html', locals())
 
 def login(request):
 
@@ -30,18 +40,15 @@ def login(request):
         return HttpResponseNotAllowed('not support')
 
 
-
+# @loginRequire
 def setpassword(request):
-    if request.session.get('is_login', None):
-        print(request.session)
-        if request.method == 'GET':
+    # if request.session.get('is_login', None):
+    #     print(request.session)
+    if request.method == 'GET':
             username = request.session.get('username')
             displayname = str(get_info(cn=username)[1]['displayName'][0], 'utf-8')
-            # print(displayname)
-            # msg="欢迎 %s" % displayname
-            # print(msg)
             return render(request, 'setpwd.html', locals())
-        elif request.method == 'POST':
+    elif request.method == 'POST':
             result = ""
             username = request.POST.get('rusername')
             oldpassword = request.POST.get('oldpass')
@@ -53,11 +60,11 @@ def setpassword(request):
             else:
                 result = setpasswd(username, oldpassword, newpassword)
                 return render(request, 'setpwd.html', locals())
-        else:
-            return HttpResponseNotAllowed("not support method!")
     else:
-        msg = '没登录就想改密码，你想多了！听话，先登录！'
-        return render(request, 'login.html', locals())
+            return HttpResponseNotAllowed("not support method!")
+    # else:
+    #     msg = '没登录就想改密码，你想多了！听话，先登录！'
+    #     return render(request, 'login.html', locals())
 
 def logout(request):
     request.session.clear()

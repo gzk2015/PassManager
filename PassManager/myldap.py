@@ -8,7 +8,7 @@ connect = ldap.initialize(host)
 
 #accoding to the cn  search all item and get dn
 def get_info(cn):
-        connect.simple_bind_s('cn=Manager,dc=xbniao,dc=com', '11111')
+        connect.simple_bind_s('cn=Manager,dc=xbniao,dc=com', 'Ne9DyhK9')
         filters = '(cn=%s)' %cn
         dns_list = connect.search_s('dc=xbniao,dc=com', ldap.SCOPE_SUBTREE, filters)
         if len(dns_list) == 1:

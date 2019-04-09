@@ -1,0 +1,20 @@
+<!--<script>-->
+
+    <!--function validate(){-->
+        <!--var p1 = $('#newpass').val();-->
+        <!--var p2 = $('#secpass').val();-->
+
+        <!--if(p1 == p2){-->
+            <!--$('#tishi').html('密码一致');-->
+            <!--$('#tishi').css(‘color", "green");-->
+            <!--}-->
+            <!--else-->
+            <!--{-->
+                <!--$('#tishi').html('两次输入不一致');-->
+                <!--$('#tishi').css(‘color", "red");-->
+                <!--$("button").attr("disabled", "disabled");-->
+                <!--}-->
+
+    <!--}-->
+
+<!--</script>-->
